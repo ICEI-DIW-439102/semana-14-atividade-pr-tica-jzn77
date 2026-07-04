@@ -11,7 +11,7 @@ Sugerimos o uso das seguintes ferramentas acessíveis: [FullCalendar](https://fu
 ## Informações do trabalho
 
 - Nome: João Pedro Lemos Faria
-- Matricula: (inserir matrícula)
+- Matricula: 1626142
 - Proposta de projeto escolhida: Catálogo de Filmes
 - Breve descrição sobre seu projeto: Catálogo interativo de filmes integrado com a API pública do TMDB (The Movie Database). O projeto permite explorar filmes populares, mais votados, em cartaz e em breve, além de busca por título. Na semana 14, foi adicionada uma página de visualização dinâmica com gráficos gerados via Chart.js a partir dos dados consumidos diretamente da API do TMDB.
 
@@ -33,10 +33,10 @@ A página também exibe quatro cards com estatísticas gerais: total de filmes a
 
 > Captura mostrando os cards de estatísticas, o gráfico de pizza com a distribuição por gênero e o gráfico de barras com a nota média por gênero.
 
-![Tela 1 - Gráficos](print1.png)
+![Tela 1 - Gráficos](public/print1.png)
 
 ### Tela 2 — Gráfico de barras horizontal e catálogo de filmes
 
 > Captura mostrando o gráfico de barras horizontal com a quantidade de filmes por gênero e a página principal do catálogo com os cards de filmes.
 
-![Tela 2 - Catálogo](print2.png)
+![Tela 2 - Catálogo](public/print2.png)
