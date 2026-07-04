@@ -1,0 +1,436 @@
+/* =============================================================
+   Catálogo de Filmes — styles.css
+   Semana 14: Apresentação Dinâmica de Dados
+   ============================================================= */
+
+/* ----------------------------------------------------------------
+   Variáveis CSS
+   ---------------------------------------------------------------- */
+:root {
+  --tmdb-primary:   #032541;
+  --tmdb-secondary: #01b4e4;
+  --tmdb-accent:    #90cea1;
+  --tmdb-dark:      #0d1117;
+  --tmdb-card-bg:   #ffffff;
+  --tmdb-text:      #212529;
+  --tmdb-muted:     #6c757d;
+  --radius-card:    0.75rem;
+  --shadow-card:    0 2px 12px rgba(0,0,0,.10);
+  --shadow-hover:   0 6px 24px rgba(0,0,0,.18);
+  --transition:     .25s ease;
+}
+
+/* ----------------------------------------------------------------
+   Base / Reset
+   ---------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--tmdb-text);
+  background: #f5f7fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* ----------------------------------------------------------------
+   NAVBAR
+   ---------------------------------------------------------------- */
+.tmdb-navbar {
+  background: linear-gradient(135deg, var(--tmdb-primary) 0%, #0b3d6b 100%);
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+}
+
+.tmdb-navbar .navbar-brand {
+  color: #ffffff;
+  letter-spacing: .5px;
+}
+
+.tmdb-navbar .navbar-brand:hover {
+  color: var(--tmdb-secondary);
+}
+
+.tmdb-navbar .nav-link,
+.tmdb-navbar .btn-filtro-nav {
+  color: rgba(255,255,255,.75);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: .95rem;
+  transition: color var(--transition);
+  padding: .4rem .75rem;
+  border-radius: .4rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.tmdb-navbar .btn-filtro-nav:hover,
+.tmdb-navbar .btn-filtro-nav:focus,
+.tmdb-navbar .btn-filtro-nav.active,
+.tmdb-navbar .nav-link:hover,
+.tmdb-navbar .nav-link.active {
+  color: #ffffff;
+  background: rgba(255,255,255,.12);
+  outline: none;
+}
+
+/* ----------------------------------------------------------------
+   HERO / PESQUISA
+   ---------------------------------------------------------------- */
+.hero-section {
+  background: linear-gradient(135deg, var(--tmdb-primary) 0%, #0b3d6b 60%, var(--tmdb-secondary) 100%);
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.hero-section h1 {
+  text-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+
+.hero-section .form-control {
+  border-color: rgba(255,255,255,.25);
+  background: rgba(255,255,255,.95);
+  font-size: 1.05rem;
+}
+
+.hero-section .form-control:focus {
+  background: #fff;
+  border-color: var(--tmdb-secondary);
+  box-shadow: 0 0 0 .2rem rgba(1,180,228,.35);
+}
+
+.hero-section .input-group.shadow {
+  box-shadow: 0 4px 20px rgba(0,0,0,.25) !important;
+  border-radius: .5rem;
+  overflow: hidden;
+}
+
+.hero-section .btn-warning {
+  background: #f5c518;
+  border-color: #f5c518;
+  color: #000;
+  font-weight: 700;
+}
+
+.hero-section .btn-warning:hover {
+  background: #e6b800;
+  border-color: #e6b800;
+}
+
+/* ----------------------------------------------------------------
+   BARRA DE FILTROS
+   ---------------------------------------------------------------- */
+.filtros-section {
+  background: #fff;
+  position: sticky;
+  top: 56px;
+  z-index: 100;
+}
+
+.btn-filtro {
+  border-radius: 2rem;
+  font-size: .85rem;
+  font-weight: 600;
+  padding: .35rem 1rem;
+  transition: all var(--transition);
+}
+
+.btn-filtro.active,
+.btn-filtro:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(3,37,65,.2);
+}
+
+#info-resultados {
+  font-size: .85rem;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------
+   GRID / CARDS DE FILMES
+   ---------------------------------------------------------------- */
+.card-filme {
+  background: var(--tmdb-card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition), box-shadow var(--transition);
+  overflow: hidden;
+}
+
+.card-filme:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.poster-img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  display: block;
+  background: #1a1a2e;
+}
+
+.poster-sem-imagem {
+  width: 100%;
+  aspect-ratio: 2/3;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: rgba(255,255,255,.4);
+}
+
+.badge-tipo {
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+  font-size: .7rem;
+  font-weight: 600;
+  padding: .3em .55em;
+  border-radius: .35rem;
+}
+
+.badge-nota {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  font-size: .8rem;
+  font-weight: 700;
+  padding: .35em .6em;
+  border-radius: .4rem;
+}
+
+.card-filme .card-title {
+  font-size: .95rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-filme .card-text {
+  font-size: .82rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ----------------------------------------------------------------
+   LOADING SPINNER
+   ---------------------------------------------------------------- */
+#loading {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ----------------------------------------------------------------
+   ALERTA
+   ---------------------------------------------------------------- */
+#alerta {
+  border-radius: .6rem;
+  font-size: .92rem;
+}
+
+/* ----------------------------------------------------------------
+   PAGINAÇÃO
+   ---------------------------------------------------------------- */
+#paginacao .pagination {
+  gap: .25rem;
+}
+
+#paginacao .page-link {
+  border-radius: .5rem !important;
+  font-weight: 500;
+  color: var(--tmdb-primary);
+  border-color: #dee2e6;
+  min-width: 2.4rem;
+  text-align: center;
+  transition: all var(--transition);
+}
+
+#paginacao .page-link:hover {
+  background: var(--tmdb-primary);
+  color: #fff;
+  border-color: var(--tmdb-primary);
+}
+
+#paginacao .page-item.active .page-link {
+  background: var(--tmdb-primary);
+  border-color: var(--tmdb-primary);
+  color: #fff;
+}
+
+#paginacao .page-item.disabled .page-link {
+  color: #adb5bd;
+}
+
+/* ----------------------------------------------------------------
+   PÁGINA DE GRÁFICOS
+   ---------------------------------------------------------------- */
+.graficos-hero {
+  background: linear-gradient(135deg, var(--tmdb-primary) 0%, #0b3d6b 60%, var(--tmdb-secondary) 100%);
+  padding: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.graficos-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid var(--tmdb-secondary);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.stat-card .stat-label {
+  font-size: .8rem;
+  color: var(--tmdb-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-weight: 600;
+  margin-bottom: .4rem;
+}
+
+.stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--tmdb-primary);
+  line-height: 1;
+  margin-bottom: .25rem;
+}
+
+.stat-card .stat-sub {
+  font-size: .8rem;
+  color: var(--tmdb-muted);
+}
+
+.chart-card {
+  background: #fff;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.chart-card .chart-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--tmdb-primary);
+  margin-bottom: 1.25rem;
+  padding-bottom: .75rem;
+  border-bottom: 2px solid #f0f2f5;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.chart-card .chart-title i {
+  color: var(--tmdb-secondary);
+}
+
+.chart-container {
+  position: relative;
+}
+
+/* ----------------------------------------------------------------
+   FOOTER
+   ---------------------------------------------------------------- */
+.tmdb-footer {
+  background: linear-gradient(135deg, var(--tmdb-primary) 0%, #0b3d6b 100%);
+}
+
+.tmdb-footer a.text-warning {
+  transition: opacity var(--transition);
+}
+
+.tmdb-footer a.text-warning:hover {
+  opacity: .8;
+}
+
+/* ----------------------------------------------------------------
+   RESPONSIVIDADE
+   ---------------------------------------------------------------- */
+@media (max-width: 576px) {
+  .hero-section,
+  .graficos-hero {
+    padding: 2.5rem 0;
+  }
+
+  .hero-section h1,
+  .graficos-hero h1 {
+    font-size: 1.7rem;
+  }
+
+  .filtros-section {
+    top: 56px;
+    padding: .5rem 0;
+  }
+
+  .btn-filtro {
+    font-size: .75rem;
+    padding: .25rem .75rem;
+  }
+
+  .stat-card .stat-value {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tmdb-navbar .btn-filtro-nav {
+    padding: .35rem .5rem;
+    font-size: .85rem;
+  }
+}
+
+/* ----------------------------------------------------------------
+   ACESSIBILIDADE
+   ---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

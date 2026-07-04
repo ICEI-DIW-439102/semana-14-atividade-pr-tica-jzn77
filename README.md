@@ -10,15 +10,33 @@ Sugerimos o uso das seguintes ferramentas acessíveis: [FullCalendar](https://fu
 
 ## Informações do trabalho
 
-- Nome:
-- Matricula:
-- Proposta de projeto escolhida:
-- Breve descrição sobre seu projeto:
+- Nome: João Pedro Lemos Faria
+- Matricula: (inserir matrícula)
+- Proposta de projeto escolhida: Catálogo de Filmes
+- Breve descrição sobre seu projeto: Catálogo interativo de filmes integrado com a API pública do TMDB (The Movie Database). O projeto permite explorar filmes populares, mais votados, em cartaz e em breve, além de busca por título. Na semana 14, foi adicionada uma página de visualização dinâmica com gráficos gerados via Chart.js a partir dos dados consumidos diretamente da API do TMDB.
 
-**Print da tela com a implementação**
+## Implementação da visualização dinâmica
 
-<< Coloque aqui uma breve explicação da implementação feita nessa etapa>>
+A página `graficos.html` apresenta três visualizações interativas com dados reais obtidos do TMDB:
 
-<<  COLOQUE A IMAGEM TELA 1 AQUI >>
+- **Gráfico de pizza** — distribuição percentual dos filmes por gênero (ação, drama, comédia, etc.)
+- **Gráfico de barras** — nota média de avaliação por gênero, permitindo comparar a qualidade percebida entre categorias
+- **Gráfico de barras horizontal** — quantidade total de filmes por gênero, em ordem decrescente
 
-<<  COLOQUE A IMAGEM TELA 2 AQUI >>
+Os dados são coletados a cada acesso buscando filmes populares e mais votados da API do TMDB (6 páginas = ~120 filmes únicos), processados em JavaScript puro e renderizados com a biblioteca **Chart.js 4.x** sem dependências adicionais.
+
+A página também exibe quatro cards com estatísticas gerais: total de filmes analisados, nota média geral, gênero mais frequente e filme mais bem avaliado.
+
+## Prints da tela
+
+### Tela 1 — Página de gráficos com pizza e barras de nota
+
+> Captura mostrando os cards de estatísticas, o gráfico de pizza com a distribuição por gênero e o gráfico de barras com a nota média por gênero.
+
+![Tela 1 - Gráficos](print1.png)
+
+### Tela 2 — Gráfico de barras horizontal e catálogo de filmes
+
+> Captura mostrando o gráfico de barras horizontal com a quantidade de filmes por gênero e a página principal do catálogo com os cards de filmes.
+
+![Tela 2 - Catálogo](print2.png)

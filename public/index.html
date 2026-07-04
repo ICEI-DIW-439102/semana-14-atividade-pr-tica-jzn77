@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Catálogo de Filmes — integração com a API do TMDB.">
+  <title>Catálogo de Filmes | TMDB</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <!-- ===== HEADER / NAVBAR ===== -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark tmdb-navbar shadow-sm sticky-top">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-4" href="index.html">
+          <i class="bi bi-film me-2"></i>Catálogo de Filmes
+        </a>
+        <button class="navbar-toggler border-0" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navMenu"
+                aria-controls="navMenu" aria-expanded="false" aria-label="Menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <button class="nav-link btn-filtro-nav active" data-tipo="popular">
+                <i class="bi bi-fire me-1"></i>Populares
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link btn-filtro-nav" data-tipo="top_rated">
+                <i class="bi bi-trophy me-1"></i>Mais Votados
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link btn-filtro-nav" data-tipo="now_playing">
+                <i class="bi bi-play-circle me-1"></i>Em Cartaz
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link btn-filtro-nav" data-tipo="upcoming">
+                <i class="bi bi-calendar-event me-1"></i>Em Breve
+              </button>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="graficos.html">
+                <i class="bi bi-bar-chart-line me-1"></i>Gráficos
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO / PESQUISA ===== -->
+    <section class="hero-section py-5" aria-labelledby="hero-titulo">
+      <div class="container text-center text-white">
+        <h1 id="hero-titulo" class="display-5 fw-bold mb-2">
+          <i class="bi bi-camera-reels me-2"></i>Descubra Filmes
+        </h1>
+        <p class="lead mb-4 opacity-75">Explore o catálogo completo usando a API do TMDB</p>
+
+        <!-- Barra de pesquisa -->
+        <div class="row justify-content-center">
+          <div class="col-md-7 col-lg-6">
+            <form id="form-busca" role="search">
+              <div class="input-group input-group-lg shadow">
+                <input type="search" class="form-control" id="input-busca"
+                       placeholder="Buscar filme, série ou ator…" autocomplete="off"
+                       aria-label="Buscar">
+                <button class="btn btn-warning fw-bold px-4" type="submit">
+                  <i class="bi bi-search me-1"></i>Buscar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FILTROS (desktop) ===== -->
+    <section class="filtros-section py-3 border-bottom" aria-label="Filtros">
+      <div class="container">
+        <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+
+          <!-- Botões de categoria -->
+          <div class="d-flex flex-wrap gap-2" id="botoes-filtro">
+            <button class="btn btn-primary btn-sm btn-filtro active" data-tipo="popular">
+              <i class="bi bi-fire me-1"></i>Populares
+            </button>
+            <button class="btn btn-outline-primary btn-sm btn-filtro" data-tipo="top_rated">
+              <i class="bi bi-trophy me-1"></i>Mais Votados
+            </button>
+            <button class="btn btn-outline-primary btn-sm btn-filtro" data-tipo="now_playing">
+              <i class="bi bi-play-circle me-1"></i>Em Cartaz
+            </button>
+            <button class="btn btn-outline-primary btn-sm btn-filtro" data-tipo="upcoming">
+              <i class="bi bi-calendar-event me-1"></i>Em Breve
+            </button>
+          </div>
+
+          <!-- Info de resultados + link gráficos -->
+          <div class="d-flex align-items-center gap-3">
+            <span id="info-resultados" class="text-muted small"></span>
+            <a href="graficos.html" class="btn btn-outline-secondary btn-sm">
+              <i class="bi bi-bar-chart-line me-1"></i>Ver Gráficos
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <section class="py-5" aria-label="Resultados">
+      <div class="container">
+
+        <!-- Alerta de erro/aviso -->
+        <div id="alerta" class="alert d-none mb-4" role="alert"></div>
+
+        <!-- Loading spinner -->
+        <div id="loading" class="text-center py-5 d-none">
+          <div class="spinner-border text-primary" style="width:3rem;height:3rem" role="status">
+            <span class="visually-hidden">Carregando…</span>
+          </div>
+          <p class="mt-3 text-muted fs-5">Buscando filmes…</p>
+        </div>
+
+        <!-- Grid de cards -->
+        <div class="row g-4" id="grid-filmes"></div>
+
+        <!-- Paginação -->
+        <nav id="paginacao" class="mt-5" aria-label="Paginação"></nav>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="tmdb-footer text-white py-4 mt-auto">
+    <div class="container text-center">
+      <p class="mb-1 small">
+        Dados fornecidos pela
+        <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"
+           class="text-warning text-decoration-none fw-bold">
+          <i class="bi bi-database-fill me-1"></i>The Movie Database (TMDB)
+        </a>
+      </p>
+      <p class="text-white-50 small mb-0">
+        Projeto Acadêmico — Semana 14 — Apresentação Dinâmica de Dados
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/scripts/app.js"></script>
+</body>
+</html>
